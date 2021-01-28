@@ -1,38 +1,49 @@
 .App {
-  text-align: center;
+    position: relative;
+    margin: 10px auto;
+    display: block;
+    width: 100%;
+    background: darkgrey;
+    border: black solid 5px;
+    overflow: scroll;
+    transform: scale();
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.test {
+    border: black solid 5px;
+    margin: 10px auto;
+    width: 90%;
+    height: 100vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.node__root > circle {
+    fill: red;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.node__branch > circle {
+    fill: yellow;
 }
 
-.App-link {
-  color: #61dafb;
+.rd3t-label {
+    border: 2px cyan solid;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.node__leaf > circle {
+    fill: green;
+    /* Let's also make the radius of leaf nodes larger */
+    r: 40;
 }
+
+.test2 {
+    border: black solid 5px;
+    margin: 10px auto;
+    width: 90%;
+    height: 100vh;
+}
+
+/*.storm {*/
+/*    border: black solid 5px;*/
+/*    margin: 10px auto;*/
+/*    width: 90%;*/
+/*    height: 100vh;*/
+/*}*/

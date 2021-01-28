@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useRef} from 'react';
+import SimpleDiagram from "./components/diagram/SimpleDiagram";
+import RenderList from "./components/diagram/RenderList";
+import TestDiagram from "./components/diagram/TestDiagram";
+import TestDiagram2 from "./components/diagram/TestDiagram2";
+import StormDiagram from "./components/diagram/StormDiagram";
+import Storm from "./components/diagram/Storm";
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const parentElement = useRef(null);
+
+    // console.log(parentElement);
+    return (
+        <>
+            {/*<div className="App" ref={parentElement}>*/}
+            {/*    <SimpleDiagram parentElement={parentElement}/>*/}
+            {/*</div>*/}
+            <div className="App" ref={parentElement}>
+                <RenderList/>
+            </div>
+            <div className="test">
+                <TestDiagram/>
+            </div>
+            {/*<div className="test2">*/}
+            {/*    <TestDiagram2/>*/}
+            {/*</div>*/}
+            {/*<div className="storm">*/}
+            {/*    <Storm/>*/}
+            {/*</div>*/}
+        </>
+
+    );
 }
 
 export default App;

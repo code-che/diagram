@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+/.idea
+/.eslintcache
+src/react-app-env.d.ts
+
 # testing
 /coverage
 
