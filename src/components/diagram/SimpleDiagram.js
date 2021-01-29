@@ -2,7 +2,7 @@ import React from 'react';
 import Diagram, {createSchema, useSchema} from 'beautiful-react-diagrams';
 import 'beautiful-react-diagrams/styles.css';
 
-function SimpleDiagram( parentElement, node) {
+function SimpleDiagram( props ) {
     // example for nodes in props : [[nodeTag, nodeId] , [nodeTag, nodeId], ... ]
     // example for links in props :
 
@@ -19,7 +19,8 @@ function SimpleDiagram( parentElement, node) {
 
     // console.log(parentElement);
     // console.log(parentElement.parentElement.current.offsetWidth);
-    console.log(node);
+    const node = props.node;
+    // console.log(node);
 
     let nodes = [];
     let links = [];
@@ -40,10 +41,13 @@ function SimpleDiagram( parentElement, node) {
             let toggleLocation = "right";
             let widthThisChild = 0;
             for ( let index in node.children ){
-                widthThisChild = creatNode( node.children[index], coorXChildren[toggleLocation], coorY + 200, toggleLocation);
+                widthThisChild = drawTree( node.children[index], coorXChildren[toggleLocation], coorY + 200, toggleLocation);
+                console.log(toggleLocation);
+                console.log(coorXChildren[toggleLocation]);
+                console.log("---------");
                 widthOfChildren += widthThisChild;
                 toggleLocation === "right" ? coorXChildren["right"] += widthThisChild : coorXChildren["left"] -= widthThisChild;
-                toggleLocation === "right" ? toggleLocation = "right" : toggleLocation = "left";
+                toggleLocation === "right" ? toggleLocation = "left" : toggleLocation = "right";
 
                 links.push({ input: node.id, output: node.children[index].id})
             }
@@ -52,7 +56,7 @@ function SimpleDiagram( parentElement, node) {
             let toggleLocation = "center";
             let widthThisChild = 0;
             for ( let index in node.children ){
-                widthThisChild = creatNode( node.children[index], coorXChildren[toggleLocation], coorY + 200, toggleLocation );
+                widthThisChild = drawTree( node.children[index], coorXChildren[toggleLocation], coorY + 200, toggleLocation );
                 widthOfChildren += widthThisChild;
                 switch (toggleLocation) {
                     case "center":
@@ -62,11 +66,11 @@ function SimpleDiagram( parentElement, node) {
                         break;
                     case "right":
                         coorXChildren["right"] += widthThisChild;
-                        toggleLocation = "right";
+                        toggleLocation = "left";
                         break;
                     case "left":
                         coorXChildren["left"] -= widthThisChild;
-                        toggleLocation = "left";
+                        toggleLocation = "right";
                         break;
                 }
 
@@ -74,8 +78,9 @@ function SimpleDiagram( parentElement, node) {
             }
         }
 
-        let x = calcuteX( 100, coorX, location);
+        let x = calcuteX( widthOfChildren, coorX, location);
         nodes.push(creatNode(node, x, coorY));
+        return widthOfChildren;
 
     }
 
@@ -101,7 +106,9 @@ function SimpleDiagram( parentElement, node) {
         };
     }
 
-    // drawTree(node, 800, 200, "center");
+    drawTree(node, 800, 100, "center");
+    console.log(nodes);
+    console.log(links);
 
     // function searchNode(node, matchingIdNode){
     //     if(node.id === matchingIdNode){
@@ -117,28 +124,28 @@ function SimpleDiagram( parentElement, node) {
     //     return null;
     // }
 
-    const initialSchema = createSchema({
-        nodes: [
-            { id: 'node-1', content: 'Node 1', coordinates: [250, 0], },
-            { id: 'node-2', content: 'Node 2', coordinates: [100, 200], },
-            { id: 'node-3', content: 'Node 3', coordinates: [250, 220], },
-            { id: 'node-4', content: 'Node 4', coordinates: [400, 200], },
-        ],
-        links: [
-            { input: 'node-1',  output: 'node-2' },
-            { input: 'node-1',  output: 'node-3' },
-            { input: 'node-1',  output: 'node-4' },
-        ]
-    });
-
     // const initialSchema = createSchema({
     //     nodes: [
-    //         ...nodes
+    //         { id: 'node-1', content: 'Node 1', coordinates: [250, 0], },
+    //         { id: 'node-2', content: 'Node 2', coordinates: [100, 200], },
+    //         { id: 'node-3', content: 'Node 3', coordinates: [250, 220], },
+    //         { id: 'node-4', content: 'Node 4', coordinates: [400, 200], },
     //     ],
     //     links: [
-    //         ...links
+    //         { input: 'node-1',  output: 'node-2' },
+    //         { input: 'node-1',  output: 'node-3' },
+    //         { input: 'node-1',  output: 'node-4' },
     //     ]
     // });
+
+    const initialSchema = createSchema({
+        nodes: [
+            ...nodes
+        ],
+        links: [
+            ...links
+        ]
+    });
 
     const [schema, { onChange }] = useSchema(initialSchema);
     // console.log(schema);
@@ -146,9 +153,7 @@ function SimpleDiagram( parentElement, node) {
 
     return (
         <div className="Simple-diagram">
-            <div style={{ height: '22.5rem' }}>
-                <Diagram schema={schema} onChange={onChange} />
-            </div>
+            <Diagram schema={schema} onChange={onChange} />
         </div>
     );
 }
